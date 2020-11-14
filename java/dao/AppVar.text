@@ -1,0 +1,42 @@
+
+
+
+
+import java.entity.AppVar;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import javax.validation.constraints.*;
+import java.util.List;
+
+
+public interface appVarDao {
+
+    AppVar getById(@NotNull Long appVarId);
+
+    List<AppVar> listByEntity(AppVar appVar);
+
+    AppVar getByEntity(AppVar appVar);
+
+    List<AppVar> listByIds(@NotEmpty List<Long list);
+
+    int insert(@NotNull AppVar appVar);
+
+    int insertBatch(@NotEmpty List<AppVar> list);
+
+    int update(@NotNull AppVar appVar);
+
+    int updateByField(@NotNull @Param("where") AppVar where, @NotNull @Param("set") AppVar set);
+
+    int updateBatch(@NotEmpty List<AppVar> list);
+
+    int deleteById(@NotNull  Long appVar);
+
+    int deleteByEntity(@NotNull AppVar appVar);
+
+    int deleteByIds(@NotEmpty List<Long> list);
+
+    int countAll();
+
+    int countByEntity(AppVar appVar);
+
+}

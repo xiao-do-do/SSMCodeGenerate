@@ -1,0 +1,42 @@
+
+
+
+
+import java.entity.;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import javax.validation.constraints.*;
+import java.util.List;
+
+
+public interface userDao {
+
+     getById(@NotNull Long userId);
+
+    List<> listByEntity( user);
+
+     getByEntity( user);
+
+    List<> listByIds(@NotEmpty List<Long list);
+
+    int insert(@NotNull  user);
+
+    int insertBatch(@NotEmpty List<> list);
+
+    int update(@NotNull  user);
+
+    int updateByField(@NotNull @Param("where")  where, @NotNull @Param("set")  set);
+
+    int updateBatch(@NotEmpty List<> list);
+
+    int deleteById(@NotNull  Long user);
+
+    int deleteByEntity(@NotNull  user);
+
+    int deleteByIds(@NotEmpty List<Long> list);
+
+    int countAll();
+
+    int countByEntity( user);
+
+}

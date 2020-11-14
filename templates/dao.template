@@ -1,0 +1,52 @@
+{%- set finalPath = "java/dao" -%}
+{%- set fileName = tableInfo.name|CamelCase + ".text" -%}
+{{- this | saveFile(finalPath,fileName) -}}
+
+{#{% set global=namespace(pk="") %}#}
+{#{% for v in {{ tableInfo.pkColumn }} %}#}
+{#    {% set global.pk=v.name %}#}
+{#{% endfor %}#}
+
+{%- set tableNameUpper =  tableInfo.name | CamelCase%}
+{%- set tableNameLower =  tableInfo.name | camelCase%}
+{% set className = tableNameLower+"Dao" -%}
+
+
+import java.entity.{{ tableInfo.nameUpper }};
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import javax.validation.constraints.*;
+import java.util.List;
+
+
+public interface {{ className }} {
+
+    {{ tableInfo.nameUpper }} getById(@NotNull {{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
+
+    List<{{ tableInfo.nameUpper }}> listByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+    {{ tableInfo.nameUpper }} getByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+    List<{{ tableInfo.nameUpper }}> listByIds(@NotEmpty List<{{ tableInfo.pkColumn.shortType }} list);
+
+    int insert(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+    int insertBatch(@NotEmpty List<{{ tableInfo.nameUpper }}> list);
+
+    int update(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+    int updateByField(@NotNull @Param("where") {{ tableInfo.nameUpper }} where, @NotNull @Param("set") {{ tableInfo.nameUpper }} set);
+
+    int updateBatch(@NotEmpty List<{{ tableInfo.nameUpper }}> list);
+
+    int deleteById(@NotNull  {{ tableInfo.pkColumn.shortType }} {{ tableNameLower }});
+
+    int deleteByEntity(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+    int deleteByIds(@NotEmpty List<{{ tableInfo.pkColumn.shortType }}> list);
+
+    int countAll();
+
+    int countByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+
+}

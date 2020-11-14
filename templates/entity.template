@@ -1,0 +1,12 @@
+{%- set finalPath = "java/entity" -%}
+{%- set fileName = tableInfo.name|CamelCase + ".java" -%}
+{{- this | saveFile(finalPath,fileName) -}}
+
+
+public class {{ tableInfo.name | CamelCase }} {
+{% for v in tableInfo.fullColumn %}
+    private {{ v.shortType }} {{ v.name | camelCase }};
+{% endfor %}
+
+ 
+}

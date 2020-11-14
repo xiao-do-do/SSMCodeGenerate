@@ -1,0 +1,42 @@
+
+
+
+
+import java.entity.Apps;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import javax.validation.constraints.*;
+import java.util.List;
+
+
+public interface appsDao {
+
+    Apps getById(@NotNull Long appId);
+
+    List<Apps> listByEntity(Apps apps);
+
+    Apps getByEntity(Apps apps);
+
+    List<Apps> listByIds(@NotEmpty List<Long list);
+
+    int insert(@NotNull Apps apps);
+
+    int insertBatch(@NotEmpty List<Apps> list);
+
+    int update(@NotNull Apps apps);
+
+    int updateByField(@NotNull @Param("where") Apps where, @NotNull @Param("set") Apps set);
+
+    int updateBatch(@NotEmpty List<Apps> list);
+
+    int deleteById(@NotNull  Long apps);
+
+    int deleteByEntity(@NotNull Apps apps);
+
+    int deleteByIds(@NotEmpty List<Long> list);
+
+    int countAll();
+
+    int countByEntity(Apps apps);
+
+}

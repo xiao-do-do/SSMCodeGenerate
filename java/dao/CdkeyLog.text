@@ -1,0 +1,42 @@
+
+
+
+
+import java.entity.CdkeyLog;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import javax.validation.constraints.*;
+import java.util.List;
+
+
+public interface cdkeyLogDao {
+
+    CdkeyLog getById(@NotNull  Ã»Ö÷¼ü£¿);
+
+    List<CdkeyLog> listByEntity(CdkeyLog cdkeyLog);
+
+    CdkeyLog getByEntity(CdkeyLog cdkeyLog);
+
+    List<CdkeyLog> listByIds(@NotEmpty List< list);
+
+    int insert(@NotNull CdkeyLog cdkeyLog);
+
+    int insertBatch(@NotEmpty List<CdkeyLog> list);
+
+    int update(@NotNull CdkeyLog cdkeyLog);
+
+    int updateByField(@NotNull @Param("where") CdkeyLog where, @NotNull @Param("set") CdkeyLog set);
+
+    int updateBatch(@NotEmpty List<CdkeyLog> list);
+
+    int deleteById(@NotNull   cdkeyLog);
+
+    int deleteByEntity(@NotNull CdkeyLog cdkeyLog);
+
+    int deleteByIds(@NotEmpty List<> list);
+
+    int countAll();
+
+    int countByEntity(CdkeyLog cdkeyLog);
+
+}
