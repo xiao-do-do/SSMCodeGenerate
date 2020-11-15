@@ -4,7 +4,7 @@ import os
 from jinja2 import FileSystemLoader, Environment
 
 from Observable import Observer
-from utils.utils import file_name, bindFilters, doNone
+from Utils.utils import file_name, bindFilters, doNone
 
 
 class EntifyFile(Observer):

@@ -1,6 +1,6 @@
 import pymysql
 from DB.DBConnection import DBConnection
-from helper import ConfigHelper
+from Helper import ConfigHelper
 
 
 class MysqlConnectionImpl(DBConnection):

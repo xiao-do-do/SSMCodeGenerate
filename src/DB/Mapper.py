@@ -3,8 +3,8 @@ import re
 
 from multidict import CIMultiDict
 from DB.TableInfo import TableInfo, ColumnInfo, ForignInfo
-from helper import ConfigHelper
-from utils.utils import *
+from Helper import ConfigHelper
+from Utils.utils import *
 
 
 # 从config.ini中寻找与数据库相匹配的JAVA数据类型
