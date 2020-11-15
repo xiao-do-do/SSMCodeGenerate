@@ -1,5 +1,5 @@
 # SSMCodeGenerate
- SSM数据表逆向生成代码
+ SSM数据表逆向生成代码，使用jinja2模板引擎更灵活
 
 如何使用
 =
