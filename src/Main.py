@@ -1,7 +1,7 @@
 from EntityFile import EntifyFile
 from Generator import Generator
-from Helper import ConfigHelper
-from DB.DBImpl.MysqlConnectionImpl import MysqlConnectionImpl
+from helper import ConfigHelper
+from db.DBImpl.MysqlConnectionImpl import MysqlConnectionImpl
 
 if __name__ == '__main__':
     # 首先需要config/config.ini修改数据库信息

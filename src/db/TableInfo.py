@@ -1,4 +1,4 @@
-from Helper import ConfigHelper
+from helper import ConfigHelper
 
 
 # 数据表信息

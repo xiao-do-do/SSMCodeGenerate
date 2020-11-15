@@ -1,5 +1,5 @@
 from Observable import Observable
-from DB.Mapper import Mapper
+from db.Mapper import Mapper
 
 
 class Generator(Observable):
