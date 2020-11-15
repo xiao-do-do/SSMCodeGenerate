@@ -1,9 +1,9 @@
 import pymysql
-from db.DBConnection import DBConnection
+from dba.DBConnection import DBConnection
 from helper import ConfigHelper
 
 
-class MariadbConnectionImpl(DBConnection):
+class MysqlConnectionImpl(DBConnection):
     def getConnection(self):
         ProjectConfig = ConfigHelper.getProjectConfig()
         mysqlUser = ProjectConfig.get("MysqlUser")
