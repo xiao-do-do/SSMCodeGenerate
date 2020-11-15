@@ -11,5 +11,6 @@ if __name__ == '__main__':
     # 获取数据库链接,和项目信息传递给生成器
 
     generator = Generator(conn, projectConfig)
-    generator.add(Templates())
+    templates = Templates()
+    generator.add(templates)
     generator.go()
