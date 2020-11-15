@@ -8,8 +8,8 @@
     # 首先需要config/config.ini修改数据库信息
     projectConfig = ConfigHelper.getProjectConfig()
     conn = MariadbConnectionImpl().getConnection()
+   
     # 获取数据库链接,和项目信息传递给生成器
-
     generator = Generator(conn, projectConfig)
     templates = Templates()
     generator.add(templates)
