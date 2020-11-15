@@ -1,7 +1,7 @@
 # SSMCodeGenerate
  SSM数据表逆向生成代码
 
-#如何使用
+-如何使用
 
     #Main.py
     
@@ -15,7 +15,7 @@
     generator.add(templates)
     generator.go()
 
-#文件简介
+-文件简介
 config
 
     config.ini 为配置信息
