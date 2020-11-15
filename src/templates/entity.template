@@ -1,4 +1,4 @@
-{%- set finalPath = "java/entity" -%}
+{%- set finalPath = "result/entity" -%}
 {%- set fileName = tableInfo.name|CamelCase + ".java" -%}
 {{- this | saveFile(finalPath,fileName) -}}
 

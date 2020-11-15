@@ -1,4 +1,4 @@
-{%- set finalPath = "java/dao" -%}
+{%- set finalPath = "result/dao" -%}
 {%- set fileName = tableInfo.name|CamelCase + ".text" -%}
 {{- this | saveFile(finalPath,fileName) -}}
 
