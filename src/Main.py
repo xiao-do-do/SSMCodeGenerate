@@ -1,7 +1,7 @@
 from EntityFile import EntifyFile
 from Generator import Generator
 from helper import ConfigHelper
-from db.impl.MariadbConnectionImpl import MariadbConnectionImpl
+from dba.impl.MariadbConnectionImpl import MariadbConnectionImpl
 
 if __name__ == '__main__':
     # 首先需要config/config.ini修改数据库信息
