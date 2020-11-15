@@ -13,3 +13,5 @@ if __name__ == '__main__':
     generator = Generator(conn, projectConfig)
     generator.add(EntifyFile())
     generator.go()
+
+#     test
