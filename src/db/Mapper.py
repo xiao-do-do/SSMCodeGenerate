@@ -7,11 +7,11 @@ from helper import ConfigHelper
 from utils.Utils import *
 
 
-# 从config.ini中寻找与数据库相匹配的JAVA数据类型
 def getTypeMapper(mapType):
+    # 从config.ini中寻找与数据库相匹配的JAVA数据类型
     typeMapper = ConfigHelper.getConfigerItems("typeMapper")
     for i in typeMapper:
-        if "\(" in i:
+        if r"\(" in i:
             pattern = re.compile(i)  # 查找数字
             result1 = pattern.findall(mapType)
             if result1:
@@ -23,8 +23,23 @@ def getTypeMapper(mapType):
         pass
 
 
-# 把数据库的所有表映射成一个对象
+def getShortTypeMapper(mapType):
+    # 把Sql的字段的类型转为JAVA类型
+    strType = getTypeMapper(mapType)
+    if strType:
+        cnt = str(strType).rfind(".")
+        return strType[cnt + 1:]
+
+
+def getColumnFromTableInfos(listTableInfos, tableName):
+    for ab in listTableInfos:
+        if ab.name == tableName:
+            return ab.fullColumn
+    return []
+
+
 class Mapper(object):
+    # 映射数据库
     conn = None
     projectConfig = None
 
@@ -32,8 +47,8 @@ class Mapper(object):
         self.conn = conn
         self.projectConfig = config
 
-    # 获取所有表名
     def getTables(self):
+        # 获取所有表名
         results = []
         try:
             with self.conn.cursor() as cursor:
@@ -46,8 +61,8 @@ class Mapper(object):
             pass
         return result
 
-    # 获取所有字段的详情信息
     def descTable(self, tableName):
+        # 获取所有字段的详情信息
         results = []
         try:
             with self.conn.cursor() as cursor:
@@ -67,8 +82,8 @@ class Mapper(object):
             # conn.close()
         return results
 
-    # 获取与此表所有的关联的表的信息（表名，字段）
     def getAllForignKey(self, dataBase, table):
+        # 获取与此表所有的关联的表的信息（表名，字段）
         results = []
         # print("表：%s" % table)
         try:
@@ -86,7 +101,8 @@ class Mapper(object):
         # print("%s无外键"%table)
         return result
 
-    def generateSQLByForignKey(forign2):
+    def generateSQLByForignKey(self, forign2):
+        # 练级查询生成sql
         for i in forign2:
             ownTableName = i[3]
             ownFkName = i[4]
@@ -95,13 +111,8 @@ class Mapper(object):
             print('select * from %s,%s where %s.%s = %s.%s' % (
                 ownTableName, targetTableName, ownTableName, ownFkName, targetTableName, targenFkName))
 
-    def getShortTypeMapper(self, mapType):
-        stra = getTypeMapper(mapType)
-        if stra:
-            cnt = str(stra).rfind(".")
-            return stra[cnt + 1:]
-
     def analyzeTables(self, tables):
+        # 解析表，封装表的信息
         listTableInfo = []
 
         for tmpTable in tables:
@@ -116,7 +127,7 @@ class Mapper(object):
             fullColumns = []
             for tl in listTmpTableDesc:
                 columnInfo = ColumnInfo()
-                columnInfo.shortType = self.getShortTypeMapper(tl[1])
+                columnInfo.shortType = getShortTypeMapper(tl[1])
                 columnInfo.name = tl[0]
                 columnInfo.fullType = getTypeMapper(tl[1])
                 columnInfo.null = tl[2]
@@ -147,7 +158,7 @@ class Mapper(object):
 
             # 获取所有外键引用列表
             b = self.getAllForignKey(self.projectConfig.get("MysqlDb"), tmpTable[0])
-            print(b)
+            # print(b)
             if b:
                 for ai in b:
                     tmpForignInfo = ForignInfo()
@@ -178,15 +189,15 @@ class Mapper(object):
 
         for aa in listTableInfo:
             for bb in range(len(aa.forignInfo)):
-                print("%s  -> %s " % (aa.forignInfo[bb].ownTableName, aa.forignInfo[bb].targetTableName))
-                cola = self.getColumnFromTableInfos(listTableInfo, aa.forignInfo[bb].ownTableName)
-                colb = self.getColumnFromTableInfos(listTableInfo, aa.forignInfo[bb].targetTableName)
+                # print("%s  -> %s " % (aa.forignInfo[bb].ownTableName, aa.forignInfo[bb].targetTableName))
+                cola = getColumnFromTableInfos(listTableInfo, aa.forignInfo[bb].ownTableName)
+                colb = getColumnFromTableInfos(listTableInfo, aa.forignInfo[bb].targetTableName)
                 aa.forignInfo[bb].joinTablesColumn = aa.forignInfo[bb].joinTablesColumn + cola
                 aa.forignInfo[bb].joinTablesColumn = aa.forignInfo[bb].joinTablesColumn + colb
 
                 aa.nameUpper = CamelCase(aa.name)
 
-                print(type(aa.pkColumn))
+                # print(type(aa.pkColumn))
                 if "TableInfo.ColumnInfo" in str(type(aa.pkColumn)):
                     aa.pkColumnUpper = copy.copy(aa.pkColumn)
                     aa.pkColumnUpper.nameUpper = aa.pkColumnUpper.name
@@ -196,12 +207,6 @@ class Mapper(object):
                 # print(aa.forignInfo[bb].joinTablesColumn)
         return listTableInfo
         pass
-
-    def getColumnFromTableInfos(self, listTableInfos, tableName):
-        for ab in listTableInfos:
-            if ab.name == tableName:
-                return ab.fullColumn
-        return []
 
     def getSqlMaps(self):
         tables = self.getTables()

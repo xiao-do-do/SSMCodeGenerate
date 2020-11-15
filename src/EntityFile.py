@@ -21,8 +21,8 @@ class EntifyFile(Observer):
         tables = maps["listTables"]
         descs = maps["listDesc"]
 
-        print(tables)
-        print(descs)
+        # print(tables)
+        # print(descs)
 
         tableInfos = maps["tableInfo"]
 

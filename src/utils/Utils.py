@@ -65,6 +65,7 @@ def saveFile(data, moduleName, fileName):
     # print(data)
     # print(moduleName)
     # print(fileName)
+    print("[INFO] 保存文件 -> %s/%s" % (moduleName, fileName))
     if not os.path.exists(moduleName):
         os.makedirs(moduleName)
 

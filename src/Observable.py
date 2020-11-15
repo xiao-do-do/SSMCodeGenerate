@@ -25,16 +25,14 @@ class Observer(metaclass=abc.ABCMeta):
         print("write")
         pass
 
-    def write(self,data,fileName,fileDirectory):
+    def write(self, data, fileName, fileDirectory):
         print(fileDirectory)
         print(fileName)
         if not os.path.exists(fileDirectory):
             os.makedirs(fileDirectory)
 
-
-        with open(fileDirectory+"\\"+fileName   , 'w') as file_object:
+        with open(fileDirectory + "\\" + fileName, 'w') as file_object:
             file_object.write(data)
 
     def appdendsGetterAndSetter(self):
         pass
-
