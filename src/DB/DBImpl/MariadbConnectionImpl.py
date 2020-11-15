@@ -3,7 +3,7 @@ from db.DBConnection import DBConnection
 from helper import ConfigHelper
 
 
-class MysqlConnectionImpl(DBConnection):
+class MariadbConnectionImpl(DBConnection):
     def getConnection(self):
         ProjectConfig = ConfigHelper.getProjectConfig()
         mysqlUser = ProjectConfig.get("MysqlUser")
