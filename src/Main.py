@@ -1,4 +1,4 @@
-from EntityFile import EntifyFile
+from EntityFile import Templates
 from Generator import Generator
 from helper import ConfigHelper
 from db.impl.MariadbConnectionImpl import MariadbConnectionImpl
@@ -11,5 +11,5 @@ if __name__ == '__main__':
     # 获取数据库链接,和项目信息传递给生成器
 
     generator = Generator(conn, projectConfig)
-    generator.add(EntifyFile())
+    generator.add(Templates())
     generator.go()

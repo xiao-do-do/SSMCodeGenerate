@@ -7,7 +7,7 @@ from Observable import Observer
 from utils.Utils import file_name, bindFilters, doNone
 
 
-class EntifyFile(Observer):
+class Templates(Observer):
     def __init__(self, obj):
         obj.add(self)
 
