@@ -2,7 +2,7 @@ import copy
 import re
 
 from multidict import CIMultiDict
-from dba.TableInfo import TableInfo, ColumnInfo, ForignInfo
+from db.TableInfo import TableInfo, ColumnInfo, ForignInfo
 from helper import ConfigHelper
 from utils.Utils import *
 
