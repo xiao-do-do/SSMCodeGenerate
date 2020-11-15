@@ -1,0 +1,21 @@
+{%- set finalPath = "result/forign" -%}
+{%- set fileName = tableInfo.name|CamelCase + ".java" -%}
+{{- this | saveFile(finalPath,fileName) -}}
+{# 封装外键信息， 这样可以方便级联查询语句的沈城 #}
+
+{% for v in tableInfo.forignInfo %}
+    {{ v.ownTableName }} {{ v.ownColumn | camelCase }},{{ v.targetTableName | camelCase }},{{ v.targetColumn | camelCase }};
+    {%- for d in v.joinTablesColumn %}
+        {{ d.name }}
+    {% endfor -%}
+    -----------------------------------
+{% endfor %}
+
+
+{%- for v in tableInfo.forignInfo -%}
+    {%- for d in v.joinTablesColumn %}
+        {{ d.name }}
+    {% endfor -%}
+{%- endfor -%}
+
+
