@@ -22,7 +22,7 @@ config
 
     config.ini 为配置信息
 
-DB
+db
 
     impl        数据库链接的实现
     Mapper      映射数据表
