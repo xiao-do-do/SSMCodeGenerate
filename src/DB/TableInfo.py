@@ -7,28 +7,34 @@ class TableInfo(object):
     saveModelName = "entity"
     packageName = savePackageName + "." + saveModelName
     fullColumn = []
-    pkShortType = ""
+    # 表所有字段
     otherColumn = []
-    forignInfo = []
-
-    # 常用数据格式
-    name = ""
-    nameUpper = ""
+    # 表非主键字段
     pkColumn = ""
     pkColumnUpper = ""
+    # 主键字段
+    pkShortType = ""
+    # 主键JAVA类型
+    foreignInfo = []
+
+    name = ""
+    # 表名
+    nameUpper = ""
+
+
 
     pass
 
 
 # 数据表字段信息
 class ColumnInfo(object):
-    name = "asdf"
-    fullType = "java.lang.Object"
-    shortType = "Object"
+    name = ""
+    fullType = ""
+    shortType = ""
+    jdbcType = ""
     null = ""
     primaryKey = ""
     exTra = ""
-
     pass
 
 

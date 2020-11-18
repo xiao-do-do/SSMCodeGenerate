@@ -1,0 +1,50 @@
+{%- set finalPath = "result/service" -%}
+{%- set fileName = tableInfo.name|CamelCase  -%}
+{%- set fileName = fileName+"Service" + ".text" -%}
+{{- this | saveFile(finalPath,fileName) -}}
+
+
+{%- set tableNameUpper =  tableInfo.name | CamelCase%}
+{%- set tableNameLower =  tableInfo.name | camelCase%}
+{% set className = tableNameLower + "Service" -%}
+
+
+
+import $!{tableInfo.savePackageName}.dao.{{ tableInfo.nameUpper }}Dao;
+import $!{tableInfo.savePackageName}.dto.{{ tableInfo.nameUpper }}Dto;
+import $!{tableInfo.savePackageName}.entity.{{ tableInfo.nameUpper }};
+
+import java.util.List;
+
+public interface {{ className }} {
+
+    {{ tableInfo.nameUpper }}Dao get{{ tableInfo.nameUpper }}Dao();
+
+    {{ tableInfo.nameUpper }} getById({{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
+
+    {{ tableInfo.nameUpper }} getByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+
+    List<{{ tableInfo.nameUpper }}> listByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+
+    List<{{ tableInfo.nameUpper }}> listByIds(List<{{ tableInfo.pkColumn.shortType }}> ids);
+
+    int insert({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+
+    int insertBatch(List<{{ tableInfo.nameUpper }}> list);
+
+    int update({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+
+    int updateBatch(List<{{ tableInfo.nameUpper }}> list);
+
+    int deleteById({{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
+
+    int deleteByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+
+    int deleteByIds(List<{{ tableInfo.pkColumn.shortType }}> list);
+
+    int countAll();
+
+    int countByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+}
+
+
