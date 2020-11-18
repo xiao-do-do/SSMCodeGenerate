@@ -12,3 +12,7 @@ def getConfigerItems(section):
 
 def getProjectConfig():
     return getConfigerItems("ProjectConfig")
+
+
+def getTypeMapperConfig():
+    return getConfigerItems("typeMapper")

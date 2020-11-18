@@ -1,11 +1,11 @@
 import pymysql
 from db.DBConnection import DBConnection
-from helper import ConfigHelper
+from utils import ConfigReader
 
 
 class MariadbConnectionImpl(DBConnection):
     def getConnection(self):
-        ProjectConfig = ConfigHelper.getProjectConfig()
+        ProjectConfig = ConfigReader.getProjectConfig()
         mysqlUser = ProjectConfig.get("MysqlUser")
         mysqlPassword = ProjectConfig.get("MysqlPassword")
         mysqlDb = ProjectConfig.get("MysqlDb")

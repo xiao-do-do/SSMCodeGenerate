@@ -18,14 +18,7 @@ class Templates(Observer):
         obj.add(self)
 
     def update(self, maps):
-        tables = maps["listTables"]
-        descs = maps["listDesc"]
-
-        # print(tables)
-        # print(descs)
-
         tableInfos = maps["tableInfo"]
-
         listTemplate = file_name("templates")
 
         for jk in listTemplate:

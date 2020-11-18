@@ -1,14 +1,14 @@
-from helper import ConfigHelper
+from utils import ConfigReader
 
 
 # 数据表信息
 class TableInfo(object):
-    savePackageName = ConfigHelper.getProjectConfig().get("PackageName")
+    savePackageName = ConfigReader.getProjectConfig().get("PackageName")
     saveModelName = "entity"
     packageName = savePackageName + "." + saveModelName
     fullColumn = []
     pkShortType = ""
-    otherrColumn = []
+    otherColumn = []
     forignInfo = []
 
     # 常用数据格式

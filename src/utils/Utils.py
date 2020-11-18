@@ -1,7 +1,9 @@
 import os
 
-
 # 获取文件夹下所有的文件
+from datetime import datetime
+
+
 def file_name(file_dir):
     L = []
     for root, dirs, files in os.walk(file_dir):
@@ -78,6 +80,10 @@ def doNone(age, moduleName, fileName):
     return ""
 
 
+def currTime():
+    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+
 #
 # def initDir(config):
 #     prefix = "java"
@@ -95,3 +101,4 @@ def bindFilters(env):
     env.filters['upper'] = upper
     env.filters['capitalizeLower'] = capitalizeLower
     env.filters['capitalize'] = capitalize
+    env.filters['currTime'] = currTime
