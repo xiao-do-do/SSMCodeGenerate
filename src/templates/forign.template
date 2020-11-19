@@ -1,12 +1,13 @@
 {%- set finalPath = "result/forign" -%}
-{%- set fileName = tableInfo.name|CamelCase + ".java" -%}
+{%- set fileName = tableInfo.name|pascalCase + ".java" -%}
 {{- this | saveFile(finalPath,fileName) -}}
 {# 封装外键信息， 这样可以方便级联查询语句的沈城 #}
 
-{% for v in tableInfo.forignInfo %}
-    {{ v.ownTableName }} {{ v.ownColumn | camelCase }},{{ v.targetTableName | camelCase }},{{ v.targetColumn | camelCase }};
+
+{% for v in tableInfo.foreignInfo %}
+    {{ v.ownTableName2CC }} {{ v.ownColumn2CC }},{{ v.targetTableName2CC }},{{ v.targetColumn2CC }};
     {%- for d in v.joinTablesColumn %}
-        {{ d.name }}
+        {{ d.name2CC }}
     {% endfor -%}
     -----------------------------------
 {% endfor %}
@@ -14,7 +15,7 @@
 
 {%- for v in tableInfo.forignInfo -%}
     {%- for d in v.joinTablesColumn %}
-        {{ d.name }}
+        {{ d.name2CC }}
     {% endfor -%}
 {%- endfor -%}
 

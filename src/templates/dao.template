@@ -1,5 +1,5 @@
 {%- set finalPath = "result/dao" -%}
-{%- set fileName = tableInfo.name|CamelCase + ".text" -%}
+{%- set fileName = tableInfo.name|pascalCase + ".text" -%}
 {{- this | saveFile(finalPath,fileName) -}}
 
 {#{% set global=namespace(pk="") %}#}
@@ -7,7 +7,7 @@
 {#    {% set global.pk=v.name %}#}
 {#{% endfor %}#}
 
-{%- set tableNameUpper =  tableInfo.name | CamelCase%}
+{%- set tableNameUpper =  tableInfo.name | pascalCase%}
 {%- set tableNameLower =  tableInfo.name | camelCase%}
 {% set className = tableNameLower+"Dao" -%}
 

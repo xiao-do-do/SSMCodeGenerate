@@ -1,10 +1,10 @@
 {%- set finalPath = "result/service" -%}
-{%- set fileName = tableInfo.name|CamelCase  -%}
+{%- set fileName = tableInfo.name|pascalCase  -%}
 {%- set fileName = fileName+"Service" + ".text" -%}
 {{- this | saveFile(finalPath,fileName) -}}
 
 
-{%- set tableNameUpper =  tableInfo.name | CamelCase%}
+{%- set tableNameUpper =  tableInfo.name | pascalCase%}
 {%- set tableNameLower =  tableInfo.name | camelCase%}
 {% set className = tableNameLower + "Service" -%}
 

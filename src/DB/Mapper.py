@@ -44,10 +44,13 @@ def parseColumns(listTmpTableDesc):
         columnInfo = ColumnInfo()
         columnInfo.shortType = getShortTypeMapper(tl[1])
         columnInfo.name = tl[0]
-        columnInfo.name = tl[0]
+        # appendAttr(columnInfo, "name", str(tl[0]))
+        columnInfo.jdbcType = tl[1]
         columnInfo.fullType = getTypeMapper(tl[1])
         columnInfo.null = tl[2]
         columnInfo.primaryKey = tl[3]
+        # appendAttr(columnInfo, "primaryKey", str(tl[3]))
+
         columnInfo.exTra = tl[5]
         tmpfullColumns.append(columnInfo)
     return tmpfullColumns
@@ -90,18 +93,11 @@ def parseForignInfo(b):
 
 def appendsCamelCaseAttr(listTables):
     for a in listTables:
-        for b in dir(a):
-            if not b.startswith("__") and (isinstance(b, str)):
-                strAttr = getattr(a, b)
-                if isinstance(strAttr, str):
-                    setattr(a, b + "CamelCase", CamelCase(strAttr))
-                    setattr(a, b + "camelCase", camelCase(strAttr))
-
-            strAttr = getattr(a, b)
-            if isinstance(strAttr, list):
-                appendsCamelCaseAttr(strAttr)
-
+        a.appendSelfAttr()
     return listTables
+
+
+
 
 
 def parseJoinTables(listTableInfo):
@@ -113,14 +109,14 @@ def parseJoinTables(listTableInfo):
             aa.foreignInfo[bb].joinTablesColumn = aa.foreignInfo[bb].joinTablesColumn + cola
             aa.foreignInfo[bb].joinTablesColumn = aa.foreignInfo[bb].joinTablesColumn + colb
 
-            aa.nameUpper = CamelCase(aa.name)
 
-            # print(type(aa.pkColumn))
-            if "TableInfo.ColumnInfo" in str(type(aa.pkColumn)):
-                aa.pkColumnUpper = copy.copy(aa.pkColumn)
-                aa.pkColumnUpper.nameUpper = aa.pkColumnUpper.name
-            else:
-                print("类型不符合，没有设置主键？")
+            #
+            # # print(type(aa.pkColumn))
+            # if "TableInfo.ColumnInfo" in str(type(aa.pkColumn)):
+            #     aa.pkColumnUpper = copy.copy(aa.pkColumn)
+            #     aa.pkColumnUpper.nameUpper = aa.pkColumnUpper.name
+            # else:
+            #     print("类型不符合，没有设置主键？")
     return listTableInfo
 
 
@@ -208,16 +204,17 @@ class Mapper(object):
 
             tableInfo = TableInfo()
             tableInfo.name = str(tmpTable[0])
+            # appendAttr(tableInfo, "name", str(tmpTable[0]))
 
             # 表中所有字段
             fullColumns = parseColumns(listTmpTableDesc)
             tableInfo.fullColumn = fullColumns
 
             # 表中非主键的字段(从所有字段中删掉主键字段)
-            TableInfo.otherColumn = parseOtherColumns(fullColumns.copy())
+            tableInfo.otherColumn = parseOtherColumns(fullColumns.copy())
 
             # 表中主键字段(从所有字段获取主键字段)
-            TableInfo.pkColumn = parsePKColumns(fullColumns.copy())
+            tableInfo.pkColumn = parsePKColumns(fullColumns.copy())
 
             # 获取所有外键引用列表
             b = self.getAllForignKey(self.projectConfig.get("MysqlDb"), tmpTable[0])
@@ -226,11 +223,16 @@ class Mapper(object):
             # 表结构封装
             listTableInfo.append(tableInfo)
 
+
+        # 反射给Tables所有属性添加xxxxCamelCase的属性，，如name,添加了nameCamelCase
+        listTableInfo = appendsCamelCaseAttr(listTableInfo)
+
         # 最后表信息齐全了， 把具有外键引用的表，两个表的所有字段合并到一起。
         listTableInfo = parseJoinTables(listTableInfo)
 
-        # 用反射给Tables所有属性添加xxxxCamelCase的属性，，如name,添加了nameCamelCase
-        listTableInfo = appendsCamelCaseAttr(listTableInfo)
+
+
+
 
         return listTableInfo
 

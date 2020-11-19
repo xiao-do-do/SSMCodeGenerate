@@ -56,8 +56,12 @@ def camelCase(tmpStr):
     return str2Hump(tmpStr)
 
 
-# 大驼峰命名
+
 def CamelCase(tmpStr):
+    return capitalize(str2Hump(tmpStr))
+
+# 大驼峰命名
+def pascalCase(tmpStr):
     return capitalize(str2Hump(tmpStr))
 
 
@@ -84,6 +88,13 @@ def currTime():
     return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
+def appendAttr(obj, name, attr):
+    setattr(obj, name + "2PascalCase", pascalCase(attr))
+    setattr(obj, name + "2CamelCase", camelCase(attr))
+    setattr(obj, name + "2CC", camelCase(attr))
+    setattr(obj, name + "2PC", pascalCase(attr))
+
+
 #
 # def initDir(config):
 #     prefix = "java"
@@ -95,7 +106,8 @@ def currTime():
 # 将一些函数绑定到jinja2环境中，即可在模板中使用模板中
 def bindFilters(env):
     env.filters['camelCase'] = camelCase
-    env.filters['CamelCase'] = CamelCase
+    # env.filters['CamelCase'] = CamelCase
+    env.filters['pascalCase'] = pascalCase
     env.filters['saveFile'] = saveFile
     env.filters['lower'] = lower
     env.filters['upper'] = upper
