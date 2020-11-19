@@ -7,12 +7,12 @@
 {#    {% set global.pk=v.name %}#}
 {#{% endfor %}#}
 
-{%- set tableNameUpper =  tableInfo.name | pascalCase%}
+{%- set tablename2PC =  tableInfo.name | pascalCase%}
 {%- set tableNameLower =  tableInfo.name | camelCase%}
 {% set className = tableNameLower+"Dao" -%}
 
 
-import java.entity.{{ tableInfo.nameUpper }};
+import java.entity.{{ tableInfo.name2PC }};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import javax.validation.constraints.*;
@@ -21,32 +21,32 @@ import java.util.List;
 
 public interface {{ className }} {
 
-    {{ tableInfo.nameUpper }} getById(@NotNull {{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
+    {{ tableInfo.name2PC }} getById(@NotNull {{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
 
-    List<{{ tableInfo.nameUpper }}> listByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+    List<{{ tableInfo.name2PC }}> listByEntity({{ tableInfo.name2PC }} {{ tableNameLower }});
 
-    {{ tableInfo.nameUpper }} getByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+    {{ tableInfo.name2PC }} getByEntity({{ tableInfo.name2PC }} {{ tableNameLower }});
 
-    List<{{ tableInfo.nameUpper }}> listByIds(@NotEmpty List<{{ tableInfo.pkColumn.shortType }} list);
+    List<{{ tableInfo.name2PC }}> listByIds(@NotEmpty List<{{ tableInfo.pkColumn.shortType }} list);
 
-    int insert(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+    int insert(@NotNull {{ tableInfo.name2PC }} {{ tableNameLower }});
 
-    int insertBatch(@NotEmpty List<{{ tableInfo.nameUpper }}> list);
+    int insertBatch(@NotEmpty List<{{ tableInfo.name2PC }}> list);
 
-    int update(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+    int update(@NotNull {{ tableInfo.name2PC }} {{ tableNameLower }});
 
-    int updateByField(@NotNull @Param("where") {{ tableInfo.nameUpper }} where, @NotNull @Param("set") {{ tableInfo.nameUpper }} set);
+    int updateByField(@NotNull @Param("where") {{ tableInfo.name2PC }} where, @NotNull @Param("set") {{ tableInfo.name2PC }} set);
 
-    int updateBatch(@NotEmpty List<{{ tableInfo.nameUpper }}> list);
+    int updateBatch(@NotEmpty List<{{ tableInfo.name2PC }}> list);
 
     int deleteById(@NotNull  {{ tableInfo.pkColumn.shortType }} {{ tableNameLower }});
 
-    int deleteByEntity(@NotNull {{ tableInfo.nameUpper }} {{ tableNameLower }});
+    int deleteByEntity(@NotNull {{ tableInfo.name2PC }} {{ tableNameLower }});
 
     int deleteByIds(@NotEmpty List<{{ tableInfo.pkColumn.shortType }}> list);
 
     int countAll();
 
-    int countByEntity({{ tableInfo.nameUpper }} {{ tableNameLower }});
+    int countByEntity({{ tableInfo.name2PC }} {{ tableNameLower }});
 
 }

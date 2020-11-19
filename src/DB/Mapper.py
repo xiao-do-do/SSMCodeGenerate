@@ -2,9 +2,11 @@ import copy
 import re
 
 from multidict import CIMultiDict
-from db.TableInfo import TableInfo, ColumnInfo, ForignInfo
+
+from ColumnInfo import ColumnInfo
+from ForeignInfo import ForeignInfo
+from TableInfo import TableInfo
 from utils import ConfigReader
-from utils.Utils import *
 
 
 def getTypeMapper(mapType):
@@ -12,10 +14,9 @@ def getTypeMapper(mapType):
     typeMapper = ConfigReader.getTypeMapperConfig()
     for i in typeMapper:
         if r"\(" in i:
-            pattern = re.compile(i)  # 查找数字
+            pattern = re.compile(i)
             result1 = pattern.findall(mapType)
             if result1:
-                # print("------%s %s" % (i, typeMapper[i]))
                 return typeMapper[i]
         else:
             if i == mapType:
@@ -31,16 +32,16 @@ def getShortTypeMapper(mapType):
         return strType[cnt + 1:]
 
 
-def getColumnFromTableInfos(listTableInfos, tableName):
-    for ab in listTableInfos:
+def getColumnFromTableInfos(TableInfos, tableName):
+    for ab in TableInfos:
         if ab.name == tableName:
-            return ab.fullColumn
+            return ab.fullColumns
     return []
 
 
-def parseColumns(listTmpTableDesc):
+def parseColumns(tmpTableDesc):
     tmpfullColumns = []
-    for tl in listTmpTableDesc:
+    for tl in tmpTableDesc:
         columnInfo = ColumnInfo()
         columnInfo.shortType = getShortTypeMapper(tl[1])
         columnInfo.name = tl[0]
@@ -77,7 +78,7 @@ def parseForignInfo(b):
     # print(b)
     if b:
         for ai in b:
-            tmpForignInfo = ForignInfo()
+            tmpForignInfo = ForeignInfo()
             tmpForignInfo.ownTableName = ai[0]
             tmpForignInfo.ownColumn = ai[1]
             tmpForignInfo.targetTableName = ai[2]
@@ -91,25 +92,20 @@ def parseForignInfo(b):
     return ForignInfos
 
 
-def appendsCamelCaseAttr(listTables):
-    for a in listTables:
+def appendsNameCaseAttr(tables):
+    for a in tables:
         a.appendSelfAttr()
-    return listTables
+    return tables
 
 
-
-
-
-def parseJoinTables(listTableInfo):
-    for aa in listTableInfo:
-        for bb in range(len(aa.foreignInfo)):
-            # print("%s  -> %s " % (aa.foreignInfo[bb].ownTableName, aa.foreignInfo[bb].targetTableName))
-            cola = getColumnFromTableInfos(listTableInfo, aa.foreignInfo[bb].ownTableName)
-            colb = getColumnFromTableInfos(listTableInfo, aa.foreignInfo[bb].targetTableName)
-            aa.foreignInfo[bb].joinTablesColumn = aa.foreignInfo[bb].joinTablesColumn + cola
-            aa.foreignInfo[bb].joinTablesColumn = aa.foreignInfo[bb].joinTablesColumn + colb
-
-
+def parseJoinTables(tableInfos):
+    for aa in tableInfos:
+        for bb in range(len(aa.foreignInfos)):
+            # print("%s  -> %s " % (aa.foreignInfos[bb].ownTableName, aa.foreignInfos[bb].targetTableName))
+            cola = getColumnFromTableInfos(tableInfos, aa.foreignInfos[bb].ownTableName)
+            colb = getColumnFromTableInfos(tableInfos, aa.foreignInfos[bb].targetTableName)
+            aa.foreignInfos[bb].joinTablesColumns = aa.foreignInfos[bb].joinTablesColumns + cola
+            aa.foreignInfos[bb].joinTablesColumns = aa.foreignInfos[bb].joinTablesColumns + colb
             #
             # # print(type(aa.pkColumn))
             # if "TableInfo.ColumnInfo" in str(type(aa.pkColumn)):
@@ -117,7 +113,7 @@ def parseJoinTables(listTableInfo):
             #     aa.pkColumnUpper.nameUpper = aa.pkColumnUpper.name
             # else:
             #     print("类型不符合，没有设置主键？")
-    return listTableInfo
+    return tableInfos
 
 
 class Mapper(object):
@@ -158,7 +154,6 @@ class Mapper(object):
 
                 for i in range(len(result)):
                     results.append(result[i])
-                    # results.append(result[i][0])
         finally:
             pass
             # conn.close()
@@ -189,52 +184,47 @@ class Mapper(object):
             ownTableName = i[3]
             ownFkName = i[4]
             targetTableName = i[0]
-            targenFkName = i[1]
+            targetFkName = i[1]
             print('select * from %s,%s where %s.%s = %s.%s' % (
-                ownTableName, targetTableName, ownTableName, ownFkName, targetTableName, targenFkName))
+                ownTableName, targetTableName, ownTableName, ownFkName, targetTableName, targetFkName))
 
     def analyzeTables(self):
-        tables = self.getTables()
+        tableNames = self.getTables()
         # 解析表，封装表的信息
-        listTableInfo = []
+        tableInfos = []
 
-        for tmpTable in tables:
+        for tableName in tableNames:
             # tmpTable = tmpTable[0]
-            listTmpTableDesc = self.descTable(tmpTable)
+            tableDescs = self.descTable(tableName)
 
             tableInfo = TableInfo()
-            tableInfo.name = str(tmpTable[0])
+            tableInfo.name = str(tableName[0])
             # appendAttr(tableInfo, "name", str(tmpTable[0]))
 
             # 表中所有字段
-            fullColumns = parseColumns(listTmpTableDesc)
-            tableInfo.fullColumn = fullColumns
+            fullColumns = parseColumns(tableDescs)
+            tableInfo.fullColumns = fullColumns
 
             # 表中非主键的字段(从所有字段中删掉主键字段)
-            tableInfo.otherColumn = parseOtherColumns(fullColumns.copy())
+            tableInfo.otherColumns = parseOtherColumns(fullColumns.copy())
 
             # 表中主键字段(从所有字段获取主键字段)
             tableInfo.pkColumn = parsePKColumns(fullColumns.copy())
 
             # 获取所有外键引用列表
-            b = self.getAllForignKey(self.projectConfig.get("MysqlDb"), tmpTable[0])
-            tableInfo.foreignInfo = parseForignInfo(b)
+            b = self.getAllForignKey(self.projectConfig.get("MysqlDb"), tableName[0])
+            tableInfo.foreignInfos = parseForignInfo(b)
 
             # 表结构封装
-            listTableInfo.append(tableInfo)
-
+            tableInfos.append(tableInfo)
 
         # 反射给Tables所有属性添加xxxxCamelCase的属性，，如name,添加了nameCamelCase
-        listTableInfo = appendsCamelCaseAttr(listTableInfo)
+        tableInfos = appendsNameCaseAttr(tableInfos)
 
         # 最后表信息齐全了， 把具有外键引用的表，两个表的所有字段合并到一起。
-        listTableInfo = parseJoinTables(listTableInfo)
+        tableInfos = parseJoinTables(tableInfos)
 
-
-
-
-
-        return listTableInfo
+        return tableInfos
 
     def readDatabaseMaps(self):
         maps = CIMultiDict()

@@ -10,6 +10,5 @@ class MysqlConnectionImpl(DBConnection):
         mysqlPassword = ProjectConfig.get("MysqlPassword")
         mysqlDb = ProjectConfig.get("MysqlDb")
         MysqlHost = ProjectConfig.get("MysqlHost")
-        conn = pymysql.connect(host=MysqlHost, user=mysqlUser, password=mysqlPassword, db=mysqlDb,
-                               autocommit=True)
+        conn = pymysql.connect(host=MysqlHost, user=mysqlUser, password=mysqlPassword, db=mysqlDb,autocommit=True)
         return conn

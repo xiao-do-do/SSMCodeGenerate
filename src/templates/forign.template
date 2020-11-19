@@ -4,19 +4,14 @@
 {# 封装外键信息， 这样可以方便级联查询语句的沈城 #}
 
 
-{% for v in tableInfo.foreignInfo %}
+{% for v in tableInfo.foreignInfos %}
     {{ v.ownTableName2CC }} {{ v.ownColumn2CC }},{{ v.targetTableName2CC }},{{ v.targetColumn2CC }};
-    {%- for d in v.joinTablesColumn %}
-        {{ d.name2CC }}
+    {%- for d in v.joinTablesColumns %}
+        private {{ d.shortType }} {{ d.name2CC }}
     {% endfor -%}
     -----------------------------------
 {% endfor %}
 
 
-{%- for v in tableInfo.forignInfo -%}
-    {%- for d in v.joinTablesColumn %}
-        {{ d.name2CC }}
-    {% endfor -%}
-{%- endfor -%}
 
 

@@ -4,47 +4,47 @@
 {{- this | saveFile(finalPath,fileName) -}}
 
 
-{%- set tableNameUpper =  tableInfo.name | pascalCase%}
+{%- set tablename2PC =  tableInfo.name | pascalCase%}
 {%- set tableNameLower =  tableInfo.name | camelCase%}
 {% set className = tableNameLower + "Service" -%}
 
 
 
-import $!{tableInfo.savePackageName}.dao.{{ tableInfo.nameUpper }}Dao;
-import $!{tableInfo.savePackageName}.dto.{{ tableInfo.nameUpper }}Dto;
-import $!{tableInfo.savePackageName}.entity.{{ tableInfo.nameUpper }};
+import $!{tableInfo.savePackageName}.dao.{{ tableInfo.name2PC }}Dao;
+import $!{tableInfo.savePackageName}.dto.{{ tableInfo.name2PC }}Dto;
+import $!{tableInfo.savePackageName}.entity.{{ tableInfo.name2PC }};
 
 import java.util.List;
 
 public interface {{ className }} {
 
-    {{ tableInfo.nameUpper }}Dao get{{ tableInfo.nameUpper }}Dao();
+    {{ tableInfo.name2PC }}Dao get{{ tableInfo.name2PC }}Dao();
 
-    {{ tableInfo.nameUpper }} getById({{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
+    {{ tableInfo.name2PC }} getById({{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
 
-    {{ tableInfo.nameUpper }} getByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    {{ tableInfo.name2PC }} getByEntity({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 
-    List<{{ tableInfo.nameUpper }}> listByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    List<{{ tableInfo.name2PC }}> listByEntity({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 
-    List<{{ tableInfo.nameUpper }}> listByIds(List<{{ tableInfo.pkColumn.shortType }}> ids);
+    List<{{ tableInfo.name2PC }}> listByIds(List<{{ tableInfo.pkColumn.shortType }}> ids);
 
-    int insert({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    int insert({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 
-    int insertBatch(List<{{ tableInfo.nameUpper }}> list);
+    int insertBatch(List<{{ tableInfo.name2PC }}> list);
 
-    int update({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    int update({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 
-    int updateBatch(List<{{ tableInfo.nameUpper }}> list);
+    int updateBatch(List<{{ tableInfo.name2PC }}> list);
 
     int deleteById({{ tableInfo.pkColumn.shortType }} {{ tableInfo.pkColumn.name | camelCase}});
 
-    int deleteByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    int deleteByEntity({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 
     int deleteByIds(List<{{ tableInfo.pkColumn.shortType }}> list);
 
     int countAll();
 
-    int countByEntity({{ tableInfo.nameUpper }} {{ tableInfo.nameUpper }});
+    int countByEntity({{ tableInfo.name2PC }} {{ tableInfo.name2PC }});
 }
 
 

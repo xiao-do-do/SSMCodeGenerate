@@ -35,4 +35,5 @@ class Observer(metaclass=abc.ABCMeta):
             file_object.write(data)
 
     def appdendsGetterAndSetter(self):
+
         pass
